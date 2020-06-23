@@ -1,7 +1,8 @@
 import time
 import requests
 import re
-
+import pytz
+from datetime import datetime
 
 class LOF:
     def __init__(self):
@@ -69,7 +70,7 @@ class LOF:
     def main(self):
         info = self.getInfo(id)
         md = self.md(info)
-        self.message(self.apiKey, "LOF-溢价: " + time.strftime("%m-%d %H:%M", time.localtime()), md)
+        self.message(self.apiKey, "LOF-溢价: " + datetime.now(tz=pytz.timezone("Asia/Shanghai")).strftime("%m-%d %H:%M"), md)
 
 
 if __name__ == "__main__":
