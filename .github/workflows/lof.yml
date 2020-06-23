@@ -31,4 +31,4 @@ jobs:
     - name: Run a multi-line script
       run: |
         sed -i "s/ServerChanKey/${{ secrets.ServerChanKey }}/g" lof.py
-        python ./log.py >> /dev/null
+        python ./lof.py >> /dev/null
