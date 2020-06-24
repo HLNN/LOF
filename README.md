@@ -23,6 +23,9 @@ LOF每日溢价监控助手，用于每日定时检查LOF溢价情况，并自�
    - 进入[Server酱](http://sc.ftqq.com/3.version)网站，使用GitHub登入，并绑定微信。
    - 获得秘钥`SCKEY`
    - 将秘钥以`ServerChanKey: SCKEY`的格式存入`【Settings】->【Secrets】`
+
+![Settings](doc/Settings.png)
+
  - 任意修改`README.md`中的内容触发`Actions`，检查程序是否能正常运行
 
 ## 自定义修改
