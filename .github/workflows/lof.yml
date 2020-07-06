@@ -12,7 +12,7 @@ on:
   schedule:
     # GitHub Actions 使用的是UTC时间，比北京时间慢八个小时
     # 例：如需调整为14:30， 将45改为30即可
-    - cron: '45 6 * * *'
+    - cron: '45 6 * * 1-5'
 
 jobs:
   LOF:
