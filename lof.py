@@ -20,6 +20,8 @@ class LOF:
         # 可在列表中添加想要监控的LOF
         self.LOFList = [161005, 163402]
         self.LOFList.sort()
+        # 公众号折价/溢价提醒参数，百分数；当折价溢价幅度大于等于该参数时提醒
+        self.limit = 1
 
         self.session = requests.Session()
         header = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36",}
@@ -40,10 +42,11 @@ class LOF:
 
         res = []
         for row in rows:
-            s = {}
-            for key, value in self.s.items():
-                s[key] = row[value]
-            res.append(s)
+            if abs(float(row["discount_rt"][:-1])) >= self.limit:
+                s = {}
+                for key, value in self.s.items():
+                    s[key] = row[value]
+                res.append(s)
         return res
 
     def md(self, info):
@@ -61,8 +64,9 @@ class LOF:
 
     def main(self):
         info = self.getInfo(id)
-        md = self.md(info)
-        self.message(self.apiKey, "LOF-溢价: " + datetime.now(tz=pytz.timezone("Asia/Shanghai")).strftime("%m-%d %H:%M"), md)
+        if len(info):
+            md = self.md(info)
+            self.message(self.apiKey, "LOF-溢价: " + datetime.now(tz=pytz.timezone("Asia/Shanghai")).strftime("%m-%d %H:%M"), md)
 
 
 if __name__ == "__main__":
