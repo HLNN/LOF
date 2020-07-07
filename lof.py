@@ -20,8 +20,13 @@ class LOF:
         # 可在列表中添加想要监控的LOF
         self.LOFList = [161005, 163402]
         self.LOFList.sort()
-        # 公众号折价/溢价提醒参数，百分数；当折价溢价幅度大于等于该参数时提醒
-        self.limit = 1
+        # 微信溢价/折价推送阈值（百分数）
+        # 溢价幅度大于等于该参数时提醒
+        # 例：如需溢价幅度大于0.5%时推送提醒，将此参数设置为0.5
+        self.disLimit = 0
+        # 折价幅度大于等于该参数时提醒
+        # 例：如需折价幅度大于1.0%时推送提醒，将此参数设置为1.0
+        self.preLimit = 0
 
         self.session = requests.Session()
         header = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36",}
@@ -42,7 +47,8 @@ class LOF:
 
         res = []
         for row in rows:
-            if abs(float(row["discount_rt"][:-1])) >= self.limit:
+            discount_rt = float(row["discount_rt"][:-1])
+            if (discount_rt >= 0 and discount_rt >= self.disLimit) or (discount_rt <= 0 and discount_rt <= self.preLimit):
                 s = {}
                 for key, value in self.s.items():
                     s[key] = row[value]
