@@ -27,21 +27,24 @@ LOF每日溢价监控助手，用于每日定时检查LOF溢价情况，并自�
 
 ![Settings](doc/Settings.png)
 
- - 任意修改`README.md`中的内容触发`Actions`，检查程序是否能正常运行
+ - 任意修改[`README.md`](./README.md)中的内容或修改配置文件[`config.cfg`](./config.cfg)触发`Actions`，检查程序是否能正常运行
 
 ## 自定义修改
 
- - 监控LOF列表：修改`lof.py`中的`LOFList`
+可在[`config.cfg`](./config.cfg)及[`lof.yml`](./.github/workflows/lof.yml)中修改配置内容：
 
- - 推送时间：修改`.github/workflows/lof.yml`中的`schedule`
+ - 监控LOF列表：修改[`config.cfg`](./config.cfg)中的`LOFList`
 
- - 仅周内推送：修改`.github/workflows/lof.yml`中的`schedule`
+ - 推送时间：修改[`lof.yml`](./.github/workflows/lof.yml)中的`schedule`
 
- - 设置溢价/折价推送阈值：修改`lof.py`中的溢价阈值`disLimit`和折价阈值`preLimit`，单位为`%`
+ - 仅周内推送：修改[`lof.yml`](./.github/workflows/lof.yml)中的`schedule`
+
+ - 设置溢价/折价推送阈值：修改[`config.cfg`](./config.cfg)中的溢价阈值`disLimit`和折价阈值`preLimit`，单位为`%`
 
 
 ## Changelog
 
+ - 2020-07-08，添加配置文件
  - 2020-07-06，添加溢价折价推送阈值
  - 2020-07-06，添加仅周内运行选项  
 

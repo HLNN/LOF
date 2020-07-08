@@ -29,6 +29,6 @@ jobs:
     - name: Run LOF script
       run: |
         python -m pip install --upgrade pip
-        pip install requests pytz datetime
-        sed -i "s/ServerChanKey/${{ secrets.ServerChanKey }}/g" lof.py
+        pip install requests pytz datetime configparser
+        sed -i "s/ServerChanKey/${{ secrets.ServerChanKey }}/g" config.cfg
         python ./lof.py >> /dev/null

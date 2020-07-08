@@ -2,40 +2,29 @@ import time
 import requests
 import re
 import pytz
+import json
+import configparser
 from datetime import datetime
 
 
 class LOF:
     def __init__(self):
-        # 可注释掉不需要的数据
-        self.s = {
-            "代码": "fund_id",
-            "名称": "fund_nm",
-            # "现价": "price",
-            "涨幅": "increase_rt",
-            # "基金净值": "fund_nav",
-            # "实时估值": "estimate_value",
-            "溢价率": "discount_rt",
-        }
-        # 可在列表中添加想要监控的LOF
-        self.LOFList = [161005, 163402]
+        self.cp = configparser.ConfigParser()
+        self.cp.read("config.cfg")
+        if "LOF" and "content" not in list(self.cp.sections()):
+            raise Exception("Please create config.cfg first")
+        self.content = self.cp._sections['content']
+        self.LOFList = json.loads(self.cp.get('LOF','LOFList'))
         self.LOFList.sort()
-        # 微信溢价/折价推送阈值（百分数）
-        # 溢价幅度大于等于该参数时提醒
-        # 例：如需溢价幅度大于0.5%时推送提醒，将此参数设置为0.5
-        self.disLimit = 0
-        # 折价幅度大于等于该参数时提醒
-        # 例：如需折价幅度大于1.0%时推送提醒，将此参数设置为1.0
-        self.preLimit = 0
+        self.disLimit = self.cp.getfloat('LOF', 'disLimit')
+        self.preLimit = self.cp.getfloat('LOF', 'preLimit')
+        self.apiKey = self.cp.get('LOF', 'apiKey')
 
         self.session = requests.Session()
         header = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36",}
         self.session.headers.update(header)
         self.urlBase = "https://www.jisilu.cn/data/lof/detail/"
         self.urlLOF = "https://www.jisilu.cn/data/lof/stock_lof_list/?___jsl=LST___t="
-
-        self.apiKey = "ServerChanKey"
-    
 
     def getInfo(self, id):
         r = self.session.get(self.urlLOF + str(int(time.time())*1000))
@@ -50,7 +39,7 @@ class LOF:
             discount_rt = float(row["discount_rt"][:-1])
             if (discount_rt >= 0 and discount_rt >= self.disLimit) or (discount_rt <= 0 and discount_rt <= self.preLimit):
                 s = {}
-                for key, value in self.s.items():
+                for key, value in self.content.items():
                     s[key] = row[value]
                 res.append(s)
         return res
