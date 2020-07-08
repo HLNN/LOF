@@ -40,7 +40,7 @@ class LOF:
             if (discount_rt >= 0 and discount_rt >= self.disLimit) or (discount_rt <= 0 and discount_rt <= self.preLimit):
                 s = {}
                 for key, value in self.content.items():
-                    s[key] = row[value]
+                    s[key] = row[value] if value != "fund_id" else "".join(["[", row[value], "](", self.urlBase, row[value], ")"])
                 res.append(s)
         return res
 
