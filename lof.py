@@ -18,6 +18,8 @@ class LOF:
         self.LOFList.sort()
         self.disLimit = self.cp.getfloat('LOF', 'disLimit')
         self.preLimit = self.cp.getfloat('LOF', 'preLimit')
+        if self.disLimit < 0.: self.disLimit = 0.
+        if self.preLimit > 0.: self.preLimit = 0.
         self.apiKey = self.cp.get('LOF', 'apiKey')
 
         self.session = requests.Session()
@@ -37,7 +39,7 @@ class LOF:
         res = []
         for row in rows:
             discount_rt = float(row["discount_rt"][:-1])
-            if (discount_rt >= 0 and discount_rt >= self.disLimit) or (discount_rt <= 0 and discount_rt <= self.preLimit):
+            if discount_rt >= self.disLimit or discount_rt <= self.preLimit:
                 s = {}
                 for key, value in self.content.items():
                     s[key] = row[value] if value != "fund_id" else "".join(["[", row[value], "](", self.urlBase, row[value], ")"])
