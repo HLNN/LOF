@@ -10,7 +10,7 @@ from datetime import datetime
 class LOF:
     def __init__(self):
         self.cp = configparser.ConfigParser()
-        self.cp.read("config.cfg")
+        self.cp.read("config.cfg", encoding="utf8")
         if "LOF" and "content" not in list(self.cp.sections()):
             raise Exception("Please create config.cfg first")
         self.content = self.cp._sections['content']
