@@ -9,11 +9,11 @@ on:
   pull_request:
     branches:
     - master
-  schedule:
+  #schedule:
     # GitHub Actions 使用的是UTC时间，比北京时间慢八个小时
     # 例：如需调整为14:30， 将45改为30即可
     # 设置仅周内运行，将最后一个'*'改为'1-5'
-    - cron: '45 6 * * *'
+    #- cron: '45 6 * * *'
 
 jobs:
   LOF:
